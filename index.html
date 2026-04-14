@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carlo Acutis — Santo dari Era Digital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C97A;
+      --gold-pale: #F5EDD6;
+      --ivory: #FAF8F3;
+      --stone: #E8E4DC;
+      --charcoal: #2C2A26;
+      --warm-gray: #6B6560;
+      --purple-lit: #4A3968;
+      --cream: #F2EDE3;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--ivory);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    /* ───── NAV ───── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.2rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(250,248,243,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; letter-spacing: 0.12em;
+      color: var(--gold); text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: 0.78rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--warm-gray);
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ───── HERO ───── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      background: linear-gradient(160deg, #1a1610 0%, #2C2318 45%, #1E1A30 100%);
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(201,168,76,0.12) 0%, transparent 65%),
+                  radial-gradient(ellipse at 20% 70%, rgba(74,57,104,0.25) 0%, transparent 55%);
+    }
+    .hero-cross {
+      position: absolute; right: 8%; top: 50%; transform: translateY(-50%);
+      width: 220px; height: 360px; opacity: 0.06;
+      background: linear-gradient(var(--gold-light), var(--gold-light));
+      clip-path: polygon(42% 0%, 58% 0%, 58% 35%, 100% 35%, 100% 52%, 58% 52%, 58% 100%, 42% 100%, 42% 52%, 0% 52%, 0% 35%, 42% 35%);
+    }
+    .hero-dots {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(201,168,76,0.15) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 2rem;
+      animation: fadeUp 1.2s ease both;
+    }
+    .hero-label {
+      font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+      display: inline-flex; align-items: center; gap: 0.8rem;
+    }
+    .hero-label::before, .hero-label::after {
+      content: ''; display: block; width: 32px; height: 1px; background: var(--gold); opacity: 0.6;
+    }
+    h1.hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 9vw, 7.5rem);
+      font-weight: 300; line-height: 1.05;
+      color: #F0E8D0;
+      letter-spacing: -0.01em;
+    }
+    h1.hero-name span { color: var(--gold-light); font-style: italic; }
+    .hero-years {
+      font-size: 0.78rem; letter-spacing: 0.25em; color: rgba(240,232,208,0.4);
+      margin: 0.8rem 0 2rem; text-transform: uppercase;
+    }
+    blockquote.hero-quote {
+      max-width: 540px; margin: 0 auto 2.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+      font-style: italic; font-weight: 300;
+      color: rgba(232,201,122,0.9);
+      line-height: 1.6;
+      border-left: 2px solid rgba(201,168,76,0.4);
+      padding-left: 1.2rem; text-align: left;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid rgba(201,168,76,0.4);
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(240,232,208,0.6);
+      border-radius: 2px;
+    }
+    .scroll-cue {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      color: rgba(201,168,76,0.5); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      animation: bounce 2.5s ease infinite;
+    }
+    .scroll-cue::after { content: '↓'; font-size: 1rem; }
+
+    /* ───── SECTION BASE ───── */
+    section { padding: 6rem 1.5rem; }
+    .section-inner { max-width: 860px; margin: 0 auto; }
+    .section-tag {
+      font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.8rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .section-tag::after { content: ''; flex: 1; height: 1px; background: var(--gold); opacity: 0.3; max-width: 60px; }
+    h2.section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 400; line-height: 1.2;
+      color: var(--charcoal); margin-bottom: 2rem;
+    }
+    h2.section-title em { color: var(--gold); font-style: italic; }
+    p.body-text {
+      font-size: 1rem; line-height: 1.85;
+      color: var(--warm-gray); margin-bottom: 1.4rem;
+    }
+    .divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin: 2.5rem 0;
+    }
+
+    /* ───── RELIGIUS ───── */
+    #religius { background: var(--cream); }
+    .experience-box {
+      background: var(--ivory);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--gold);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .experience-box:hover {
+      transform: translateX(8px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .experience-box h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      color: var(--charcoal);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .experience-box .icon { font-size: 1.8rem; }
+    .experience-box p {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--warm-gray);
+    }
+
+    /* ───── KANONISASI ───── */
+    #kanonisasi { background: var(--ivory); }
+    .reason-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+    .reason-item {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      padding: 1.8rem; border: 1px solid var(--stone);
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .reason-item:hover { border-color: var(--gold); background: var(--cream); }
+    .reason-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem; font-weight: 300; color: var(--gold); line-height: 1;
+      min-width: 2.5rem;
+    }
+    .reason-text h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--charcoal);
+    }
+    .reason-text p { font-size: 0.92rem; line-height: 1.75; color: var(--warm-gray); }
+
+    /* ───── KISAH MOHUR ───── */
+    #kisah-mohur { background: var(--purple-lit); }
+    #kisah-mohur .section-tag { color: var(--gold-light); }
+    #kisah-mohur h2.section-title { color: #F0E8D0; }
+    #kisah-mohur p.body-text { color: rgba(240,232,208,0.7); }
+    
+    .story-highlight {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 3rem;
+      margin-top: 2rem;
+      position: relative;
+    }
+    .story-highlight::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: 30px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 6rem;
+      color: var(--gold);
+      opacity: 0.3;
+    }
+    .story-highlight h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--gold-light);
+      margin-bottom: 1.5rem;
+    }
+    .story-highlight p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: rgba(240,232,208,0.8);
+      margin-bottom: 1.2rem;
+    }
+    .story-highlight .highlight-box {
+      background: rgba(201,168,76,0.1);
+      border-left: 3px solid var(--gold);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .story-highlight .highlight-box p {
+      margin: 0;
+      font-style: italic;
+    }
+
+    /* ───── PERINGATAN ───── */
+    #peringatan { background: var(--gold-pale); }
+    .remembrance-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+    .remembrance-card {
+      background: var(--ivory);
+      padding: 2.5rem;
+      text-align: center;
+      border-top: 3px solid var(--gold);
+      transition: transform 0.3s;
+    }
+    .remembrance-card:hover { transform: translateY(-5px); }
+    .remembrance-card .icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .remembrance-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--charcoal);
+      margin-bottom: 0.8rem;
+    }
+    .remembrance-card .date {
+      font-size: 2.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .remembrance-card p {
+      font-size: 0.9rem;
+      color: var(--warm-gray);
+      line-height: 1.7;
+    }
+    .full-width-card {
+      grid-column: 1 / -1;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .full-width-card .icon { margin: 0; font-size: 4rem; }
+    .full-width-card .content { flex: 1; }
+    .full-width-card h3 { font-size: 1.5rem; }
+
+    /* ───── QUOTE INTERLUDE ───── */
+    .quote-band {
+      background: linear-gradient(135deg, #1E1A30 0%, #2C2318 100%);
+      padding: 5rem 2rem; text-align: center;
+    }
+    .quote-band blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      font-style: italic; font-weight: 300;
+      color: var(--gold-light); max-width: 680px; margin: 0 auto;
+      line-height: 1.7;
+    }
+    .quote-band cite {
+      display: block; margin-top: 1rem;
+      font-family: 'Jost', sans-serif; font-style: normal;
+      font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(232,201,122,0.5);
+    }
+
+    /* ───── FOOTER ───── */
+    footer {
+      background: var(--charcoal);
+      padding: 3rem 2rem; text-align: center;
+    }
+    .footer-cross {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; color: var(--gold); display: block; margin-bottom: 1rem;
+    }
+    .footer-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: rgba(240,232,208,0.8); margin-bottom: 0.5rem;
+    }
+    .footer-sub {
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(240,232,208,0.3);
+    }
+    .footer-line {
+      width: 40px; height: 1px; background: var(--gold); opacity: 0.3;
+      margin: 1.5rem auto;
+    }
+    .footer-prayer {
+      max-width: 420px; margin: 0 auto;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 0.95rem;
+      color: rgba(240,232,208,0.4); line-height: 1.7;
+    }
+
+    /* ───── ANIMATIONS ───── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ───── RESPONSIVE ───── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { display: none; }
+      .remembrance-grid { grid-template-columns: 1fr; }
+      .full-width-card { flex-direction: column; text-align: center; }
+      section { padding: 4rem 1.2rem; }
+      .hero-cross { display: none; }
+      .experience-box { padding: 1.8rem; }
+      .story-highlight { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">✝ Carlo Acutis</div>
+  <ul class="nav-links">
+    <li><a href="#religius">Perjalanan Iman</a></li>
+    <li><a href="#kanonisasi">Mengapa Santo</a></li>
+    <li><a href="#kisah-mohur">Kisah Mohur</a></li>
+    <li><a href="#peringatan">Peringatan</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-cross"></div>
+  <div class="hero-content">
+    <div class="hero-label">Santo · 7 September 2025</div>
+    <h1 class="hero-name">Carlo <span>Acutis</span></h1>
+    <p class="hero-years">3 Mei 1991 — 12 Oktober 2006</p>
+    <blockquote class="hero-quote">
+      "Ekaristi adalah jalan tol menuju surga. Saya selalu bahagia. Tidak ada yang perlu kusedihkan."
+    </blockquote>
+    <span class="hero-badge">Pelindung Internet · Santo Gereja Katolik · Influencer Tuhan</span>
+  </div>
+  <div class="scroll-cue">Gulir</div>
+</section>
+
+<!-- 1. PENGALAMAN YANG MEMBUATNYA RELIGIUS -->
+<section id="religius">
+  <div class="section-inner">
+    <div class="section-tag">01 — Perjalanan Iman</div>
+    <h2 class="section-title">Pengalaman yang Membuatnya <em>Religius</em></h2>
+    <p class="body-text">
+      Carlo lahir dari keluarga yang tidak religius. Ibunya, Antonia, tumbuh dalam keluarga sekuler dan tidak pernah menghadiri Misa sebelum Carlo lahir. Namun, serangkaian pengalaman rohani sejak usia dini mengubah hidupnya — dan akhirnya mengubah seluruh keluarganya.
+    </p>
+
+    <div class="experience-box reveal">
+      <h3><span class="icon">👴</span>Mimpi Sang Kakek (Usia 3 Tahun)</h3>
+      <p>
+        Ketika Carlo berusia 3 tahun, kakek dari pihak ibunya, <strong>Antonio Salzano</strong>, meninggal dunia. Beberapa hari sebelumnya, Carlo hadir ketika kakeknya menerima Sakramen Pengurapan Orang Sakit. Konon, sang kakek menampakkan diri kepadanya dalam mimpi dan meminta doa. Tak lama setelah kematiannya, Carlo mengenakan mantel kakeknya dan meminta untuk diantar ke gereja. Ketika ditanya alasannya, ia menjawab ingin berdoa untuk kakeknya, yang ia nyatakan <em>"telah pergi menemui Yesus."</em> Ini adalah pertama kalinya ia menunjukkan kesadaran rohani yang mendalam.
+      </p>
+    </div>
+
+    <div class="experience-box reveal reveal-delay-1">
+      <h3><span class="icon">📿</span>Pengasuh dari Polandia (Usia 5 Tahun)</h3>
+      <p>
+        Keluarga Acutis mempekerjakan seorang pengasuh anak berkebangsaan <strong>Polandia</strong>. Ketika pengasuh ini mengajarkan doa Rosario, Carlo langsung jatuh cinta dan berdoa setiap hari. Pengasuh ini juga menjawab pertanyaan-pertanyaannya tentang iman Katolik. Carlo kemudian mendorong ibunya, Antonia, untuk mulai beribadah secara teratur — sesuatu yang membuat Antonia terharu dan akhirnya <strong>kembali mendekat kepada Tuhan</strong>. Pengasuh ini adalah <strong>Beato Pierina Morosini</strong>, yang juga menjadi teladan hidupnya.
+      </p>
+    </div>
+
+    <div class="experience-box reveal reveal-delay-2">
+      <h3><span class="icon">🍞</span>Komuni Pertama yang Mengubah Segalanya (16 Juni 1998)</h3>
+      <p>
+        Di biara <strong>Sant'Ambrogio ad Nemus</strong>, Milan, Carlo menerima Komuni Pertama pada usia 7 tahun. Ia berucap dengan penuh sukacita: <em>"Inilah hari paling bahagia dalam hidupku!"</em> Sejak saat itu, ia bertekad untuk menerima Ekaristi setiap hari — dan ia menepati janji itu hingga hari-hari terakhir hidupnya. Momen inilah yang menjadi titik balik hidupnya, menjadikan Ekaristi sebagai pusat dari seluruh kehidupannya.
+      </p>
+    </div>
+
+    <div class="experience-box reveal reveal-delay-3">
+      <h3><span class="icon">✝️</span>Menarik Orang Tua kepada Iman</h3>
+      <p>
+        Ibunya bersaksi bahwa <strong>iman putranya dan pertanyaan-pertanyaannya yang terus-menerus</strong> membawanya kembali kepada iman. Carlo yang mengajak ibunya ke gereja, bukan sebaliknya. Ayahnya, Andrea, juga mengalami perubahan hidup melalui teladan putranya. Carlo adalah bukti nyata bahwa seorang anak dapat menjadi "garam dan terang" dalam keluarganya sendiri.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE BAND -->
+<div class="quote-band">
+  <blockquote>
+    "Semua orang terlahir sebagai orisinal, tapi banyak yang mati sebagai fotokopi.<br>Jadilah dirimu sendiri."
+  </blockquote>
+  <cite>— Carlo Acutis</cite>
+</div>
+
+<!-- 2. MENGAPA DIJADIKAN SANTO -->
+<section id="kanonisasi">
+  <div class="section-inner">
+    <div class="section-tag">02 — Proses Kanonisasi</div>
+    <h2 class="section-title">Mengapa Ia <em>Dijadikan Santo</em></h2>
+    <p class="body-text">
+      Carlo Acutis dikanonisasi pada <strong>7 September 2025</strong> oleh Paus Leo XIV di Lapangan Santo Petrus, Vatikan, bersama Pier Giorgio Frassati. Ia menjadi <strong>Santo milenial pertama</strong> Gereja Katolik. Berikut alasan-alasan utama:
+    </p>
+
+    <div class="reason-list">
+      <div class="reason-item reveal">
+        <div class="reason-num">01</div>
+        <div class="reason-text">
+          <h3>Kebajikan Heroik (Heroic Virtue)</h3>
+          <p>Paus Fransiskus mengukuhkan hidupnya sebagai orang berkebajikan heroik pada <strong>5 Juli 2018</strong>, mendeklarasikannya sebagai <strong>Yang Mulia</strong>. Carlo menunjukkan kebajikan teologal (iman, harapan, kasih) dan kardinal (kebijaksanaan, keadilan, keberanian, kesederhanaan) pada tingkat luar biasa sejak usia sangat dini.</p>
+        </div>
+      </div>
+      
+      <div class="reason-item reveal reveal-delay-1">
+        <div class="reason-num">02</div>
+        <div class="reason-text">
+          <h3>Mukjizat Pertaraan: Mattheus Vianna (Brasil, 2013)</h3>
+          <p>Seorang anak bernama <strong>Mattheus</strong> lahir dengan <strong>pankreas anular</strong> (kelainan bawaan) yang membuatnya sulit makan. Ibunya, <strong>Luciana Vianna</strong>, berdoa novena memohon perantaraan Carlo. Pada 12 Oktober 2013, mereka menghadiri Misa dan Mattheus mencium relikui pakaian Carlo. Segera setelahnya, ia meminta makanan padat dan sembuh total. Mukjizat ini dikonfirmasi Vatikan <strong>21 Februari 2020</strong>.</p>
+        </div>
+      </div>
+
+      <div class="reason-item reveal reveal-delay-2">
+        <div class="reason-num">03</div>
+        <div class="reason-text">
+          <h3>Mukjizat Kedua: Valeria Valverde (Kosta Rika, 2022)</h3>
+          <p><strong>Valeria Valverde</strong> jatuh dari sepeda dan mengalami pendarahan otak parah. Dokter memperingatkan peluang hidupnya sangat rendah. Ibunya, <strong>Lilliana</strong>, berdoa memohon perantaraan Carlo dan mengunjungi makamnya. Pada hari yang sama, Valeria mulai bernapas mandiri dan mampu berjalan keesokan harinya dengan semua tanda pendarahan menghilang. Paus Fransiskus mengakui mukjizat ini <strong>23 Mei 2024</strong>.</p>
+        </div>
+      </div>
+
+      <div class="reason-item reveal reveal-delay-3">
+        <div class="reason-num">04</div>
+        <div class="reason-text">
+          <h3>Teladan bagi Kaum Muda Digital</h3>
+          <p>Carlo menggunakan teknologi untuk evangelisasi — membuat situs web mukjizat Ekaristi sejak usia 11 tahun. Paus Fransiskus menyebutnya <strong>"influencer Tuhan"</strong> — seseorang yang menggunakan media sosial dan internet bukan untuk ketenaran diri, tetapi untuk membawa jiwa-jiwa kepada Kristus. Ia menjadi teladan bahwa iman dan teknologi dapat berjalan beriringan.</p>
+        </div>
+      </div>
+
+      <div class="reason-item reveal reveal-delay-3">
+        <div class="reason-num">05</div>
+        <div class="reason-text">
+          <h3>Penerimaan Penderitaan yang Kudus</h3>
+          <p>Didiagnosis <strong>leukemia promielositik akut</strong> pada 1 Oktober 2006, Carlo berkata: <em>"Aku mempersembahkan kepada Tuhan penderitaan yang harus aku tanggung untuk Paus Benediktus XVI dan Gereja."</em> Ia meninggal pada <strong>12 Oktober 2006 pukul 18.45</strong> tanpa satu pun keluhan, dengan damai dan penuh cinta — menunjukkan kesucian hidup hingga akhir hayatnya.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. CERITA RAJESH MOHUR -->
+<section id="kisah-mohur">
+  <div class="section-inner">
+    <div class="section-tag reveal">03 — Kisah Inspiratif</div>
+    <h2 class="section-title reveal">Dari <em>Hindu</em> menjadi <em>Katolik</em></h2>
+    <p class="body-text reveal">
+      Salah satu kisah paling menakjubkan dari hidup Carlo adalah bagaimana ia membawa seorang Brahmana Hindu kepada iman Katolik — bukan melalui debat teologis, melainkan melalui kasih dan teladan hidup yang tulus.
+    </p>
+
+    <div class="story-highlight reveal reveal-delay-1">
+      <h3>Rajesh Mohur: Seorang Brahmana dari Mauritius</h3>
+      <p>
+        Keluarga Acutis mempekerjakan <strong>Rajesh Mohur</strong>, seorang imigran <strong>Brahmana dari Mauritius</strong>, untuk bekerja di rumah tangga mereka. Di India dan Mauritius, Brahmana adalah kasta tertinggi dalam agama Hindu — mereka adalah pendeta dan cendekiawan yang dihormati.
+      </p>
+      <p>
+        Mohur dan Carlo menjadi <strong>teman dekat</strong>. Mereka sering berbicara tentang banyak hal, termasuk iman Kristiani dan Gereja Katolik. Carlo tidak pernah memaksa atau mengkritik agama Mohur. Ia hanya hidup dengan imannya secara nyata — berdoa setiap hari, menerima Ekaristi, dan menunjukkan kasih kepada semua orang.
+      </p>
+      <p>
+        Perlahan-lahan, Mohur mulai tertarik. Ia melihat sesuatu yang berbeda pada Carlo — sebuah kedamaian dan sukacita yang tidak ia temukan di tempat lain. Setelah berbicara panjang-lebar dengan Carlo tentang iman, <strong>Mohur meminta untuk dibaptis</strong>.
+      </p>
+      
+      <div class="highlight-box">
+        <p>
+          "Carlo tidak pernah memaksa saya. Ia hanya menunjukkan kasih Tuhan melalui hidupnya. Ketika saya melihat bagaimana ia berdoa, bagaimana ia mencintai Ekaristi, saya tahu saya ingin memiliki apa yang ia miliki."
+        </p>
+        <p style="margin-top: 0.8rem; font-style: normal; font-size: 0.85rem; color: var(--gold-light);">
+          — Rajesh Mohur
+        </p>
+      </div>
+
+      <p style="margin-top: 1.5rem;">
+        Pengaruh Carlo tidak berhenti di situ. <strong>Seeven Kistnen</strong>, seorang teman Mohur, juga bertobat dan dibaptis setelah bertemu dengan Carlo dan mendengarnya berbicara tentang iman. Bahkan <strong>ibu Mohur</strong>, yang sedang berkunjung dari Mauritius, menghadiri Misa bersama Mohur dan Carlo, kemudian berbicara panjang-lebar dengannya, dan akhirnya <strong>meminta untuk dibaptis juga</strong>.
+      </p>
+      <p>
+        Tiga orang — seorang Brahmana, temannya, dan ibunya — semua memasuki Gereja Katolik karena persahabatan dengan seorang anak laki-laki berusia belasan tahun. Carlo membuktikan bahwa <strong>teladan hidup lebih kuat dari seribu kata-kata</strong>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. HARI PERINGATAN & PELINDUNG -->
+<section id="peringatan">
+  <div class="section-inner">
+    <div class="section-tag">04 — Penghormatan</div>
+    <h2 class="section-title">Hari Peringatan & <em>Gelar Pelindung</em></h2>
+    <p class="body-text">
+      Gereja Katolik secara resmi mengakui Santo Carlo Acutis dengan gelar-gelar kehormatan dan penetapan hari peringatan khusus. Berikut informasi lengkapnya:
+    </p>
+
+    <div class="remembrance-grid">
+      <div class="remembrance-card reveal">
+        <span class="icon">📅</span>
+        <h3>Hari Peringatan</h3>
+        <span class="date">12 Oktober</span>
+        <p>Tanggal wafatnya Carlo Acutis pada tahun 2006, saat ia meninggal dunia pada pukul 18.45 di Rumah Sakit San Gerardo, Monza, dalam damai dan sukacita.</p>
+      </div>
+
+      <div class="remembrance-card reveal reveal-delay-1">
+        <span class="icon">🌐</span>
+        <h3>Tempat Ziarah</h3>
+        <span class="date" style="font-size: 1.2rem;">Gereja Santa Maria Maggiore</span>
+        <p>Assisi, Italia — kota Santo Fransiskus yang sangat dikagumi Carlo. Makamnya menjadi situs ziarah internasional yang dikunjungi puluhan ribu peziarah setiap tahun.</p>
+      </div>
+
+      <div class="remembrance-card reveal reveal-delay-2 full-width-card">
+        <span class="icon">🛡️</span>
+        <div class="content">
+          <h3>Gelar Pelindung (Patron Saint)</h3>
+          <p>
+            <strong>Santo Carlo Acutis diakui sebagai Pelindung:</strong><br><br>
+            • <strong>Internet dan Pengguna Komputer</strong> — karena ia menggunakan teknologi untuk evangelisasi<br>
+            • <strong>Pemuda</strong> — sebagai teladan iman bagi generasi muda<br>
+            • <strong>Pemrogram Komputer</strong> — karena keahliannya dalam coding sejak usia dini<br><br>
+            Paus Fransiskus menyebutnya <em>"influencer Tuhan"</em> — menginspirasi kaum muda untuk menggunakan media digital sebagai alat misi, bukan untuk pamer diri.
+          </p>
+        </div>
+      </div>
+
+      <div class="remembrance-card reveal reveal-delay-3">
+        <span class="icon">✨</span>
+        <h3>Beatifikasi</h3>
+        <span class="date">10 Oktober 2020</span>
+        <p>Di Basilika Santo Fransiskus dari Assisi, dipimpin oleh Kardinal Agostino Vallini atas nama Paus Fransiskus. Menjadi Beato pertama dari generasi Milenial.</p>
+      </div>
+
+      <div class="remembrance-card reveal reveal-delay-3">
+        <span class="icon">👑</span>
+        <h3>Kanonisasi</h3>
+        <span class="date">7 September 2025</span>
+        <p>Di Lapangan Santo Petrus, Vatikan, oleh Paus Leo XIV. Menjadi Santo Milenial pertama dalam sejarah Gereja Katolik.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-cross">✝</span>
+  <p class="footer-title">Website Religi Katolik</p>
+  <p class="footer-sub">Mengenang Santo Carlo Acutis · 1991–2006</p>
+  <div class="footer-line"></div>
+  <p class="footer-prayer">
+    "Santo Carlo Acutis, pelindung internet dan kaum muda,<br>
+    doakanlah kami agar kami menggunakan teknologi<br>
+    untuk kemuliaan Tuhan dan keselamatan jiwa."
+  </p>
+</footer>
+
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
